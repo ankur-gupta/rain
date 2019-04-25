@@ -1,10 +1,10 @@
 import os
 
 from .version import __version__
+from .compat import Iterable
 from .module_one import function_one
 from .module_two import function_two
 from .module_three import function_three, function_four
-from .compat import Iterable
 
 _ROOT = os.path.abspath(os.path.dirname(__file__))
 
