@@ -11,7 +11,7 @@ class TestFunctionOne:
     x = 1
 
     def test_success(self):
-        assert function_one(self.x) == 'one'
+        assert function_one() == 'one'
 
     def test_error(self):
         with pytest.raises(AssertionError):

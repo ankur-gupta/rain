@@ -30,5 +30,7 @@ setup(name=PACKAGE_NAME,
       zip_safe=True)
 
 # Notes:
-# Script installs in user-site as a newly made binary file which
-# points to the script actually in the package.
+# (1) Script installs in user-site as a newly made binary file which
+#     points to the script actually in the package.
+# (2) Run tests from the repo root:
+#        python3 -m pytest rain/tests
