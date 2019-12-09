@@ -48,7 +48,7 @@ the virtual environments. Within a virtual environment, replace `python3` with
 
 ## Run code
 You don't need to install the package to use the code. You just need to
-be in $REPO_ROOT. The following example (if it runs) verifies that a
+be in `$REPO_ROOT`. The following example (if it runs) verifies that a
 complicated importing situation within a package correctly works.
 ```bash
 # In $REPO_ROOT
@@ -128,7 +128,7 @@ TOTAL                                  112     23    79%
 To exclude the tests from coverage calculation, put a `.coveragerc` file
 in `$REPO_ROOT`. See more details at
 [Coverage.py documentation](https://coverage.readthedocs.io/en/latest/source.html).
-See [`$REPO_ROOT/rain/.coveragerc`](https://github.com/ankur-gupta/rain/blob/master/rain/.coveragerc)
+See [`$REPO_ROOT/rain/.coveragerc`](https://github.com/ankur-gupta/rain/blob/master/.coveragerc)
 as an example. You can run the same commands as above.
 
 The following is a typical output in which we run all the tests but don't
@@ -161,7 +161,7 @@ Install using `pip` at user-site instead of `python setup.py`. This makes it
 easier to uninstall. The script `rain_maker` is installed in user-site/bin.
 ```bash
 # Installation
-cd $REPO_ROOT
+# In $REPO_ROOT
 pip3 install --user ./
 
 # Uninstallation
@@ -256,10 +256,10 @@ possible. But, explicit relative imports are okay.
 
 ### Check that everything imports correctly
 You can run the following commands in one of two ways:
- - Run from $REPO_ROOT without installing the package. Event if you install
- the local one, _i.e._ $REPO_ROOT takes precedence over the installed code
+ - Run from `$REPO_ROOT` without installing the package. Event if you install
+ the local one, _i.e._ `$REPO_ROOT` takes precedence over the installed code
  that is typically in user-site/bin.
-- Run from outside $REPO_ROOT after installing the package.
+- Run from outside `$REPO_ROOT` after installing the package.
 
 The `banana()` function is the one with complicated import order issue but
 should import correctly.
