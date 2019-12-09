@@ -1,8 +1,8 @@
 #! /usr/bin/env python
+from __future__ import absolute_import  # No implicit relative imports
 import click
-
 import random
-from rain import load_mathematicians
+from rain import load_mathematicians  # defined in rain/__init__.py
 
 
 @click.command()
