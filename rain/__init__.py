@@ -1,10 +1,21 @@
 import os
 
-from .version import __version__
-from .compat import Iterable
-from .module_one import function_one
-from .module_two import function_two
-from .module_three import function_three, function_four
+from rain.version import __version__
+from rain.compat import Iterable
+from rain.module_one import function_one
+from rain.module_two import function_two
+from rain.module_three import function_three, function_four
+
+# The order of these imports illustrates an important point of using
+# either explicit relative imports or absolute "full-path" import
+# in $REPO_ROOT/rain/module_fruits.py file. In the next line, we import
+# `banana()` from $REPO_ROOT/rain/module_fruits.py before we import
+# `plantain()` from $REPO_ROOT/rain/module_plantain.py. But, `banana()`
+# depends on `plantain()` which means that $REPO_ROOT/rain/module_fruits.py
+# needs to make `plantain()` available without depending on this __init__.py
+# file.
+from rain.module_fruits import apple, banana
+from rain.module_plantain import plantain
 
 _ROOT = os.path.abspath(os.path.dirname(__file__))
 

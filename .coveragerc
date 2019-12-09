@@ -1,0 +1,13 @@
+# Instructions in this file assume that this file is at $REPO_ROOT/.coveragerc.
+
+[run]
+omit =
+    # Omit the tests. Path begin from package name and not repo name. In other
+    # words, $REPO_ROOT is not included in the path.
+    rain/tests/*
+
+    # Omit the resources folder
+    rain/resources/*
+
+    # Omit the scripts file
+    rain/scripts/*
