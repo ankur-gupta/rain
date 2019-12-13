@@ -72,7 +72,13 @@ python3 -m pytest -m sleepy rain/tests
 
 # Run the non-sleepy tests
 python3 -m pytest -m "not sleepy" rain/tests
+
+# Run tests that are sleepy but not random
+# You can use any valid python syntax within quotes ""
+python3 -m pytest -m "sleepy and (not random)" rain/tests"
 ```
+Make sure that the markers are defined in `$REPO_ROOT/pytest.ini` to avoid
+a warning.
 
 ### Run tests with coverage
 You need to install `pytest-cov` for this to work. See
