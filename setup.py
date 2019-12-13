@@ -33,7 +33,7 @@ setup(name=PACKAGE_NAME,
         [console_scripts]
         rain_maker=rain.scripts.rain_maker:make_it_rain
       ''',
-      install_requires=['click', 'six'],
+      install_requires=['click', 'six', 'numpy'],
       setup_requires=['pytest-runner'],
       # pytest-cov needed for coverage only
       tests_require=['pytest', 'pytest-cov'],
