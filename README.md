@@ -1,4 +1,4 @@
-# Rain
+# 🌧️ Rain
 ![build](https://github.com/ankur-gupta/rain/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/ankur-gupta/rain/branch/master/graph/badge.svg)](https://codecov.io/gh/ankur-gupta/rain)
 
