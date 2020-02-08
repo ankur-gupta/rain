@@ -264,6 +264,38 @@ TODO(ankur)
 
 
 ## Deploying to PyPI
+TODO(ankur)
+
+### Note about using Markdown-formatted `long_description`
+Many repositories use Markdown-formatted `README.md` as the value to the 
+`long_description` argument in `setuptools.setup()` in `setup.py`. This
+is especially true for GitHub repositories and `rain` itself does this. 
+
+PyPI, by default, expects `long_description` in reStructuredText. If a 
+Markdown-formatted `long_description` is provided when PyPI is expecting
+reStructuredText,  publishing to PyPI fails with an error message like this:
+```bash
+HTTPError: 400 Client Error: The description failed to render in the default 
+format of reStructuredText. See https://test.pypi.org/help/#description-content-type 
+for more information.
+```
+Luckily, this can be easily fixed by simply 
+[providing the markup format](https://packaging.python.org/tutorials/packaging-projects/#creating-setup-py) 
+in `setup.py`:
+```python
+setup(
+    ...,
+    long_description=readme,
+    long_description_content_type="text/markdown",
+    ...)
+```
+See the example in this repository [here]() (TODO(ankur)).
+Also, see the FAQs on 
+[Test PyPI](https://test.pypi.org/help/#description-content-type) 
+or [PyPI](https://pypi.org/help/#description-content-type).
+
+ 
+
 ### Deploying via GitHub Actions
 See this post for
 [details](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
