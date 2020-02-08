@@ -1,6 +1,7 @@
 click
-six
 numpy
+six
+future
 
 # For testing only
 pytest

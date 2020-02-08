@@ -260,8 +260,31 @@ pip install --user wheel
 ```
 
 ## Example CI/CD using GitHub Actions
-TODO(ankur)
+Setting up CI/CD depends on the CI/CD platform you are using. As of writing 
+this README, there is no universal CI/CD. However, most modern CI/CD follow 
+the same overall process:
 
+1. Define the CI/CD steps in some `.yml` file that is stored in the repository
+as a git-tracked file. You can have multiple `.yml` files defining different 
+steps for different purposes. Here are some common steps. Not all workflows
+may include all of these steps. 
+    - setup the test environment
+    - pull your repository with the changes that need to be tested/deployed
+    - run tests, possibly in various versions of python
+    - get code coverage metrics
+    - upload the coverage metrics to a website like codecov.io
+    - build the package 
+    - upload the package as an artifact (eg: tarball or a wheel)
+    - deploy the package to run in production
+2. Define trigger(s) than runs the steps specified in the `.yml` file. Here are 
+some examples of triggers. Of course, you can define other triggers.
+    - a push to `master`, as well as
+    - a pull request to merge to `master`
+    - _cutting_ a release (eg: by `git tag`ing a commit on `master`) 
+3. The steps defined in a `.yml` file are typically run in an ephemeral virtual 
+machine or a docker container that 
+[exists only for the purpose](https://www.youtube.com/watch?v=qUYvIAP3qQk) 
+of implementing CI/CD.
 
 ## Deploying to PyPI
 TODO(ankur)
