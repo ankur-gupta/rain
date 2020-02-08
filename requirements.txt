@@ -1,0 +1,7 @@
+click
+six
+numpy
+
+# For testing only
+pytest
+pytest-cov
