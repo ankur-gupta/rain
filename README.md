@@ -298,8 +298,78 @@ GitHub Actions is one CI/CD framework. You can see the corresponding
 YAML files in
 [`.github/workflows`](https://github.com/ankur-gupta/rain/tree/master/.github/workflows).
 
+## Uploading coverage metrics to codecov.io
+The 
+[`build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml) 
+workflow shows this example with comments. The process has two main parts:
+- Generate coverage report (typically as an XML file) using `pytest` and 
+`pytest-cov` (via [`coverage.py`](https://coverage.readthedocs.io/en/coverage-5.0.3/#using-coverage-py)).
+See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L30). 
+- Upload the coverage report to codecov.io. 
+See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L37).  
+
 ## Deploying to PyPI
-TODO(ankur)
+Since I don't own the name `rain` on PyPI (and at this point I don't want to 
+change the name of my package), I don't have a live example of deploying this 
+package on PyPI.
+
+Please be careful before deploying a package to PyPI (or Test PyPI).
+PyPI and Test PyPI are open to the public and once a package is uploaded, it 
+might not be possible to undo it. You don't want to accidentally upload any 
+proprietary or private company code/data to PyPI (or Test PyPI).
+
+Note that you cannot overwrite an existing version of your package on PyPI
+(or Test PyPI). For example, if you've already uploaded version 0.1.2 to 
+PyPI (or Test PyPI), you cannot modify the source and overwrite the same 
+version 0.1.2 on PyPI (or Test PyPI). You must bump the version up and then
+deploy again. This is because someone else might've written code against
+version 0.1.2 and we don't want to break their code. 
+
+### Deploying from local machine
+We can also deploy by building the package locally and then using 
+`twine` to upload the builds to PyPI. Note that you will need an account on
+PyPI and on Test PyPI (optional but recommended). While uploading the package 
+to PyPI (or Test PyPI), you will need to enter your account password. 
+This prevents any random person from uploading a new version of your package. 
+These are the typical instructions but they're not relevant to `rain`, 
+as mentioned above.
+```bash
+cd $REPO_ROOT
+
+# Clean the git state. An unclean git state (even untracked files) can
+# accidentally be included in your build if you're not careful.
+
+# Build the package locally (requires `wheel` package to be installed).
+# See $REPO_ROOT/dist for the tarball and the wheel
+python setup.py sdist bdist_wheel
+
+# Upload to PyPI (or Test PyPI)
+# Requires `twine` package to be installed (`pip install --user twine`).
+twine upload --verbose --repository testpypi dist/*
+twine upload --verbose --repository pypi dist/*
+```
+
+Note that you may need to add the following lines to your `$HOME/.pypirc`:
+```
+[distutils]
+index-servers =
+  pypi
+  testpypi
+
+[pypi]
+username=<your-pypi-username>
+
+[testpypi]
+username=<your-testpypi-username>
+```
+
+### Deploying via GitHub Actions
+We can use GitHub Actions to define a workflow that publishes to 
+Test PyPI and production PyPI. `rain` doesn't contain such as example but
+you can see an example in another python package called 
+[flicker](https://github.com/ankur-gupta/flicker/blob/master/.github/workflows/pypi.yml).
+The official instructions provide some more 
+[detail](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
 
 ### Note about using Markdown-formatted `long_description`
 Many repositories use Markdown-formatted `README.md` as the value to the 
@@ -330,10 +400,6 @@ See the example in this repository
 Also, see the FAQs on 
 [Test PyPI](https://test.pypi.org/help/#description-content-type) 
 or [PyPI](https://pypi.org/help/#description-content-type).
-
-### Deploying via GitHub Actions
-See this post for
-[details](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
 
 ## Adding badges to your README
 Adding badges is a great way of letting people know about key information.
