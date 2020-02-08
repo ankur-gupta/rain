@@ -308,6 +308,108 @@ See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/maste
 - Upload the coverage report to codecov.io. 
 See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L37).  
 
+## Releasing
+Releasing your package essentially involves attaching a sensible version 
+(eg: using [Semantic Versioning](https://semver.org/)) to your code and 
+releasing the code as a distributeable (eg: a tarball or a wheel). There are 
+various automated ways to "cutting a release" which we don't cover here. 
+Instead, we note the individual steps involved.
+
+### Version in `setup.py` 
+The version in `setup.py` is the canonical source of truth for the version.
+This is the version used by `python setup.py sdist bdist_wheel`. The 
+resulting files (tarball, wheel) in `$REPO_ROOT/dist` folder are named 
+using the version specified in `setup.py` as the `version` argument to 
+`setuptools.setup()` function. These are some example filenames:
+```bash
+$ cd $REPO_ROOT
+$ ls dist/ 
+rain-0.0.1-py3-none-any.whl 
+rain-0.0.1.tar.gz
+```
+Typically, we want to make the package version available to the python
+interpreter as well. However, we want to store the version exactly once
+within the source code -- this way we only have to modify it at one place
+when we release a new version. There are 
+[various ways](https://packaging.python.org/guides/single-sourcing-package-version/) 
+to do this and we follow one specific method in `rain`. 
+
+- We define the version as a `str`-valued variable called `__version__` in
+[`version.py`](https://github.com/ankur-gupta/rain/blob/master/rain/version.py).
+- We execute [`version.py`](https://github.com/ankur-gupta/rain/blob/master/rain/version.py)
+inside `setup.py` file in a particular way, as shown 
+[here](https://github.com/ankur-gupta/rain/blob/master/setup.py#L5). This 
+is done for two reasons (a) compatibility between python 2 and python 3, 
+(b) avoiding referencing the variable `__version__` without defining it 
+(while it would be legal python syntax to execute `version.py` and 
+reference `__version__`, linters and IDEs flagg that as an error)
+- We import `__version__` in 
+[`__init__.py`](https://github.com/ankur-gupta/rain/blob/master/rain/__init__.py#L3).
+
+### Version via `git tag`  
+We can `git tag` a commit (on an appropriate branch such as `master` 
+or `release`) with a version string. Note that even though we use `git tag`
+to mark versions, 
+[git tags](https://git-scm.com/book/en/v2/Git-Basics-Tagging) 
+are not specific to versions (you can do `git tag rick-and-morty`; git won't
+care). We can do this via command line or via 
+[GitHub Web UI](https://github.com/ankur-gupta/rain/releases/new).
+An example of command line example is:
+```bash
+cd $REPO_ROOT
+# Commit all changes and ensure you're on the correct branch
+git tag x.y.z
+
+# Push the tags upstream
+# See https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
+git push --follow-tags
+```
+On GitHub, releases are available on the 
+[Releases page](https://github.com/ankur-gupta/rain/releases).
+
+Note the version in `git tag` may not be the same as the version in `setup.py`.
+Conflicts between the version in `git tag` and version in `setup.py` can cause
+CI/CD errors.
+
+### Steps to follow
+The following steps when performed in order helps you avoid CI/CD errors. 
+1. Commit all code changes to `master` (typically via a pull request).
+2. Pull all changes to `master` locally.
+    ```bash
+    git checkout master
+    git pull
+    ```
+3. Create a new branch off of `master`. Let's call this new branch
+`release-new-version`.
+    ```bash
+    git checkout master
+    git checkout -b release-new-version
+    ```
+4. Bump up the version in 
+[`version.py`](https://github.com/ankur-gupta/rain/blob/master/rain/version.py).
+Ensure that the new version string is something that has never been used before.
+This is important or you may get errors when you deploy and you may have to 
+repeat all of the steps. 
+5. Push the new branch to GitHub
+    ```bash
+    git push --set-upstream origin release-new-version
+    ``` 
+6. Create a pull request from `release-new-version` to `master`. This can be 
+done via GitHub webpage. The benefit of bumping up the version via a PR
+is that you can run your CI/CD workflow on the PR. Typically, this CI/CD
+builds a python package (even if it doesn't deploy it) and can find errors 
+before you finally merge. 
+7. Once you've verified that everything looks good, merge the PR to `master`
+(after getting approval of reviewers, if necessary). At this point, any build
+off of `master` would have the latest version. If you have CI/CD pipeline that 
+runs on merge to master, let it run to confirm that everything looks good.
+8. Now, when you're sure that everything is good, `git tag` the commit on
+`master` either via command line or via GitHub releases (as discussed in the 
+subsection above).
+9. At this point, if you have a CI/CD pipeline setup to deploy the package
+(such as to an artifact repository or PyPI), it will run and deploy your 
+package. 
+
 ## Deploying to PyPI
 Since I don't own the name `rain` on PyPI (and at this point I don't want to 
 change the name of my package), I don't have a live example of deploying this 
