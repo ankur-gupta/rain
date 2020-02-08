@@ -91,8 +91,7 @@ your package. For example, your package (eg: `rain`) may not depend on
  - specifies only those dependencies that are necessary for the
  packages
 
-
-## Run code
+## Run Code
 You don't need to install the package to use the code. You just need to
 be in `$REPO_ROOT`. The following example (if it runs) verifies that a
 complicated importing situation within a package correctly works.
@@ -102,7 +101,7 @@ python3 -c "from rain import banana; print(banana())"
 # plantain
 ```
 
-## Run tests
+## Run Tests
 ### Run selected tests
 Run tests from `$REPO_ROOT`; you will get an error otherwise. You don't need
 to install the package to run tests. See
@@ -233,7 +232,7 @@ pip show rain
 vf deactivate
 ```
 
-## Run script to check your installation
+### Run script to check your installation
 ```bash
 # From anywhere when installed outside the virtual environment
 # and assuming user-site/bin is is your PATH.
@@ -252,7 +251,7 @@ Turing, Frege, Cantor, Bernoulli, Weirstrauss, Einstein, Boole, Kolmogorov, Gaus
 Godel, Poincare, Banach, Bernoulli, Newton, Maxwell, Lagrange, Huygens, Riemann, Chebyshev
 ```
 
-## Build package locally
+## Build Package Locally
 You can build a tarball and a wheel like so.
 ```bash
 # Ensure that the package `wheel` installed.
