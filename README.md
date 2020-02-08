@@ -1,7 +1,10 @@
 # Rain
 
 ## A template for python packaging
-This python package provides a template for other python packages.
+This python package provides a template for other python packages. The aim
+is to serve as a live, working template that can be explored visually by
+humans to understand and perhaps copy/paste from. In other words, this
+`rain` serves as a living, dynamic alternative to static documentation.
 This template contains:
 
 * correct way of importing within packages
@@ -16,6 +19,7 @@ This is the folder structure:
 ├── .coveragerc
 ├── .gitignore
 ├── README.md
+├── requirements.txt
 ├── rain
 │   ├── __init__.py
 │   ├── compat.py
@@ -45,6 +49,39 @@ tested on python3, as of now. Throughout this documentation, `python3`
 typically refers to the user-site python installations that are outside
 the virtual environments. Within a virtual environment, replace `python3` with
 `python`. Same goes for `pip3` to `pip`.
+
+## Why do we define dependencies in both `setup.py` and `requirements.txt`?
+Both these files serve different objectives that are somewhat mutually
+exclusive and therefore we often need both. This
+[Stack Overflow post](https://stackoverflow.com/questions/43658870/requirements-txt-vs-setup-py)
+describes this issue quite well. This post also describes how you can
+only list the dependencies in `setup.py` and "link" them in `requirements.txt`.
+Expanding upon this post:
+
+### `requirements.txt`
+- helps you setup your environment in "one fell swoop"
+- can be used by `pip` instead of using `python setup.py`
+- makes setting up virtual environments easy
+- lets you install dependencies of a package easily without having to install
+the package (`rain`, in this case) itself. This is especially useful for
+CI/CD pipelines (see example TODO(ankur)).
+- allows you to install packages that are not necessarily dependencies of
+your package. For example, your package (eg: `rain`) may not depend on
+`pandas` but `pandas` may be a commonly used package that is used alongside
+`rain`. In such a case, it may not be appropriate to put `pandas` in
+`setup.py`'s `install_requires`, `setup_requires`, `tests_require`, or
+`extras_require`. One reason is that while _you_ may use `pandas` alongside
+`rain` but not everyone else will.
+ - is easier to edit than `setup.py` and allows comments
+
+ ### `setup.py`
+ - helps you install all dependencies when installing the package (depending
+ upon options used with `python setup.py install`)
+ - ensures that all specified dependencies of the package are installed
+ before you install the intended package
+ - specifies only those dependencies that are necessary for the
+ packages
+
 
 ## Run code
 You don't need to install the package to use the code. You just need to
@@ -205,6 +242,32 @@ Taylor, Galois, Godel, Riemann, Weirstrauss, Pythagoras, Leibniz, Chebyshev, Rus
 Turing, Frege, Cantor, Bernoulli, Weirstrauss, Einstein, Boole, Kolmogorov, Gauss, Bayes
 Godel, Poincare, Banach, Bernoulli, Newton, Maxwell, Lagrange, Huygens, Riemann, Chebyshev
 ```
+
+## Build package locally
+You can build a tarball and a wheel like so.
+```bash
+# Ensure that the package `wheel` installed.
+cd $REPO_ROOT
+python setup.py sdist bdist_wheel
+# Check $REPO_ROOT/dist for both tarball and wheel files.
+```
+If you encounter an
+[error](https://stackoverflow.com/questions/34819221/why-is-python-setup-py-saying-invalid-command-bdist-wheel-on-travis-ci)
+like `error: invalid command 'bdist_wheel'`,  you may not have `wheel`
+package installed. You can install `wheel` via `pip`:
+```bash
+pip install --user wheel
+```
+
+## Example CI/CD using GitHub Actions
+TODO(ankur)
+
+
+## Deploying to PyPI
+### Deploying via GitHub Actions
+See this post for
+[details](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
+
 
 ## Correct way to do intra-package imports
 Python importing is complicated. These links provide good information:
