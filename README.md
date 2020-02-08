@@ -268,30 +268,30 @@ pip install --user wheel
 ```
 
 ## Example CI/CD using GitHub Actions
-Setting up CI/CD depends on the CI/CD platform you are using. As of writing 
-this README, there is no universal CI/CD. However, most modern CI/CD follow 
+Setting up CI/CD depends on the CI/CD platform you are using. As of writing
+this README, there is no universal CI/CD. However, most modern CI/CD follow
 the same overall process:
 
 1. Define the CI/CD steps in some `.yml` file that is stored in the repository
-as a git-tracked file. You can have multiple `.yml` files defining different 
+as a git-tracked file. You can have multiple `.yml` files defining different
 steps for different purposes. Here are some common steps. Not all workflows
-may include all of these steps. 
+may include all of these steps.
     - setup the test environment
     - pull your repository with the changes that need to be tested/deployed
     - run tests, possibly in various versions of python
     - get code coverage metrics
     - upload the coverage metrics to a website like codecov.io
-    - build the package 
+    - build the package
     - upload the package as an artifact (eg: tarball or a wheel)
     - deploy the package to run in production
-2. Define trigger(s) than runs the steps specified in the `.yml` file. Here are 
+2. Define trigger(s) than runs the steps specified in the `.yml` file. Here are
 some examples of triggers. Of course, you can define other triggers.
     - a push to `master`, as well as
     - a pull request to merge to `master`
-    - _cutting_ a release (eg: by `git tag`ing a commit on `master`) 
-3. The steps defined in a `.yml` file are typically run in an ephemeral virtual 
-machine or a docker container that 
-[exists only for the purpose](https://www.youtube.com/watch?v=qUYvIAP3qQk) 
+    - _cutting_ a release (eg: by `git tag`ing a commit on `master`)
+3. The steps defined in a `.yml` file are typically run in an ephemeral virtual
+machine or a docker container that
+[exists only for the purpose](https://www.youtube.com/watch?v=qUYvIAP3qQk)
 of implementing CI/CD.
 
 GitHub Actions is one CI/CD framework. You can see the corresponding
@@ -299,80 +299,84 @@ YAML files in
 [`.github/workflows`](https://github.com/ankur-gupta/rain/tree/master/.github/workflows).
 
 ## Uploading coverage metrics to codecov.io
-The 
-[`build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml) 
+The
+[`build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml)
 workflow shows this example with comments. The process has two main parts:
-- Generate coverage report (typically as an XML file) using `pytest` and 
+- Generate coverage report (typically as an XML file) using `pytest` and
 `pytest-cov` (via [`coverage.py`](https://coverage.readthedocs.io/en/coverage-5.0.3/#using-coverage-py)).
-See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L30). 
-- Upload the coverage report to codecov.io. 
-See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L37).  
+See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L30).
+- Upload the coverage report to codecov.io.
+See [this section in `build.yml`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L37).
 
 ## Releasing
-Releasing your package essentially involves attaching a sensible version 
-(eg: using [Semantic Versioning](https://semver.org/)) to your code and 
-releasing the code as a distributeable (eg: a tarball or a wheel). There are 
-various automated ways to "cutting a release" which we don't cover here. 
+Releasing your package essentially involves attaching a sensible version
+(eg: using [Semantic Versioning](https://semver.org/)) to your code and
+releasing the code as a distributeable (eg: a tarball or a wheel). There are
+various automated ways to "cutting a release" which we don't cover here.
 Instead, we note the individual steps involved.
 
-### Version in `setup.py` 
+### Version in `setup.py`
 The version in `setup.py` is the canonical source of truth for the version.
-This is the version used by `python setup.py sdist bdist_wheel`. The 
-resulting files (tarball, wheel) in `$REPO_ROOT/dist` folder are named 
-using the version specified in `setup.py` as the `version` argument to 
+This is the version used by `python setup.py sdist bdist_wheel`. The
+resulting files (tarball, wheel) in `$REPO_ROOT/dist` folder are named
+using the version specified in `setup.py` as the `version` argument to
 `setuptools.setup()` function. These are some example filenames:
 ```bash
 $ cd $REPO_ROOT
-$ ls dist/ 
-rain-0.0.1-py3-none-any.whl 
+$ ls dist/
+rain-0.0.1-py3-none-any.whl
 rain-0.0.1.tar.gz
 ```
 Typically, we want to make the package version available to the python
 interpreter as well. However, we want to store the version exactly once
 within the source code -- this way we only have to modify it at one place
-when we release a new version. There are 
-[various ways](https://packaging.python.org/guides/single-sourcing-package-version/) 
-to do this and we follow one specific method in `rain`. 
+when we release a new version. There are
+[various ways](https://packaging.python.org/guides/single-sourcing-package-version/)
+to do this and we follow one specific method in `rain`.
 
 - We define the version as a `str`-valued variable called `__version__` in
 [`version.py`](https://github.com/ankur-gupta/rain/blob/master/rain/version.py).
 - We execute [`version.py`](https://github.com/ankur-gupta/rain/blob/master/rain/version.py)
-inside `setup.py` file in a particular way, as shown 
-[here](https://github.com/ankur-gupta/rain/blob/master/setup.py#L5). This 
-is done for two reasons (a) compatibility between python 2 and python 3, 
-(b) avoiding referencing the variable `__version__` without defining it 
-(while it would be legal python syntax to execute `version.py` and 
-reference `__version__`, linters and IDEs flagg that as an error)
-- We import `__version__` in 
+inside `setup.py` file in a particular way, as shown
+[here](https://github.com/ankur-gupta/rain/blob/master/setup.py#L5). This
+is done for two reasons (a) compatibility between python 2 and python 3,
+(b) avoiding referencing the variable `__version__` without defining it
+(while it would be legal python syntax to execute `version.py` and
+reference `__version__`, linters and IDEs flag that as an error)
+- We import `__version__` in
 [`__init__.py`](https://github.com/ankur-gupta/rain/blob/master/rain/__init__.py#L3).
 
-### Version via `git tag`  
-We can `git tag` a commit (on an appropriate branch such as `master` 
+### Version via `git tag`
+We can `git tag` a commit (on an appropriate branch such as `master`
 or `release`) with a version string. Note that even though we use `git tag`
-to mark versions, 
-[git tags](https://git-scm.com/book/en/v2/Git-Basics-Tagging) 
+to mark versions,
+[git tags](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
 are not specific to versions (you can do `git tag rick-and-morty`; git won't
-care). We can do this via command line or via 
-[GitHub Web UI](https://github.com/ankur-gupta/rain/releases/new).
+care). We can do this via command line or via
+[GitHub Web UI](https://github.com/ankur-gupta/rain/releases/new)
+(recommended).
 An example of command line example is:
 ```bash
 cd $REPO_ROOT
 # Commit all changes and ensure you're on the correct branch
 git tag x.y.z
 
-# Push the tags upstream
-# See https://stackoverflow.com/questions/5195859/how-do-you-push-a-tag-to-a-remote-repository-using-git
-git push --follow-tags
+# Push the tags upstream. Push only the tag you made. Note that
+# `git push origin --tags` will push all the tags which can cause problems.
+git push origin x.y.z
 ```
-On GitHub, releases are available on the 
-[Releases page](https://github.com/ankur-gupta/rain/releases).
+On GitHub, releases are available on the
+[Releases page](https://github.com/ankur-gupta/rain/releases). This works
+even for tags generated from command line (as shown above) but it's better
+to [Draft a new release](https://github.com/ankur-gupta/rain/releases/new)
+via GitHub webpage because it lets you easily write good release notes.
 
 Note the version in `git tag` may not be the same as the version in `setup.py`.
 Conflicts between the version in `git tag` and version in `setup.py` can cause
 CI/CD errors.
 
 ### Steps to follow
-The following steps when performed in order helps you avoid CI/CD errors. 
+The following steps when performed in order helps you avoid CI/CD errors.
 1. Commit all code changes to `master` (typically via a pull request).
 2. Pull all changes to `master` locally.
     ```bash
@@ -385,55 +389,55 @@ The following steps when performed in order helps you avoid CI/CD errors.
     git checkout master
     git checkout -b release-new-version
     ```
-4. Bump up the version in 
+4. Bump up the version in
 [`version.py`](https://github.com/ankur-gupta/rain/blob/master/rain/version.py).
 Ensure that the new version string is something that has never been used before.
-This is important or you may get errors when you deploy and you may have to 
-repeat all of the steps. 
+This is important or you may get errors when you deploy and you may have to
+repeat all of the steps.
 5. Push the new branch to GitHub
     ```bash
     git push --set-upstream origin release-new-version
-    ``` 
-6. Create a pull request from `release-new-version` to `master`. This can be 
+    ```
+6. Create a pull request from `release-new-version` to `master`. This can be
 done via GitHub webpage. The benefit of bumping up the version via a PR
 is that you can run your CI/CD workflow on the PR. Typically, this CI/CD
-builds a python package (even if it doesn't deploy it) and can find errors 
-before you finally merge. 
+builds a python package (even if it doesn't deploy it) and can find errors
+before you finally merge.
 7. Once you've verified that everything looks good, merge the PR to `master`
 (after getting approval of reviewers, if necessary). At this point, any build
-off of `master` would have the latest version. If you have CI/CD pipeline that 
+off of `master` would have the latest version. If you have CI/CD pipeline that
 runs on merge to master, let it run to confirm that everything looks good.
 8. Now, when you're sure that everything is good, `git tag` the commit on
-`master` either via command line or via GitHub releases (as discussed in the 
-subsection above).
+`master` either via command line or via GitHub releases (recommended), as
+discussed in the subsection above.
 9. At this point, if you have a CI/CD pipeline setup to deploy the package
-(such as to an artifact repository or PyPI), it will run and deploy your 
-package. 
+(such as to an artifact repository or PyPI), it will run and deploy your
+package.
 
 ## Deploying to PyPI
-Since I don't own the name `rain` on PyPI (and at this point I don't want to 
-change the name of my package), I don't have a live example of deploying this 
+Since I don't own the name `rain` on PyPI (and at this point I don't want to
+change the name of my package), I don't have a live example of deploying this
 package on PyPI.
 
 Please be careful before deploying a package to PyPI (or Test PyPI).
-PyPI and Test PyPI are open to the public and once a package is uploaded, it 
-might not be possible to undo it. You don't want to accidentally upload any 
+PyPI and Test PyPI are open to the public and once a package is uploaded, it
+might not be possible to undo it. You don't want to accidentally upload any
 proprietary or private company code/data to PyPI (or Test PyPI).
 
 Note that you cannot overwrite an existing version of your package on PyPI
-(or Test PyPI). For example, if you've already uploaded version 0.1.2 to 
-PyPI (or Test PyPI), you cannot modify the source and overwrite the same 
+(or Test PyPI). For example, if you've already uploaded version 0.1.2 to
+PyPI (or Test PyPI), you cannot modify the source and overwrite the same
 version 0.1.2 on PyPI (or Test PyPI). You must bump the version up and then
 deploy again. This is because someone else might've written code against
-version 0.1.2 and we don't want to break their code. 
+version 0.1.2 and we don't want to break their code.
 
 ### Deploying from local machine
-We can also deploy by building the package locally and then using 
+We can also deploy by building the package locally and then using
 `twine` to upload the builds to PyPI. Note that you will need an account on
-PyPI and on Test PyPI (optional but recommended). While uploading the package 
-to PyPI (or Test PyPI), you will need to enter your account password. 
-This prevents any random person from uploading a new version of your package. 
-These are the typical instructions but they're not relevant to `rain`, 
+PyPI and on Test PyPI (optional but recommended). While uploading the package
+to PyPI (or Test PyPI), you will need to enter your account password.
+This prevents any random person from uploading a new version of your package.
+These are the typical instructions but they're not relevant to `rain`,
 as mentioned above.
 ```bash
 cd $REPO_ROOT
@@ -466,29 +470,29 @@ username=<your-testpypi-username>
 ```
 
 ### Deploying via GitHub Actions
-We can use GitHub Actions to define a workflow that publishes to 
+We can use GitHub Actions to define a workflow that publishes to
 Test PyPI and production PyPI. `rain` doesn't contain such as example but
-you can see an example in another python package called 
+you can see an example in another python package called
 [flicker](https://github.com/ankur-gupta/flicker/blob/master/.github/workflows/pypi.yml).
-The official instructions provide some more 
+The official instructions provide some more
 [detail](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
 
 ### Note about using Markdown-formatted `long_description`
-Many repositories use Markdown-formatted `README.md` as the value to the 
+Many repositories use Markdown-formatted `README.md` as the value to the
 `long_description` argument in `setuptools.setup()` in `setup.py`. This
-is especially true for GitHub repositories and `rain` itself does 
-[this](https://github.com/ankur-gupta/rain/blob/master/setup.py#L16). 
+is especially true for GitHub repositories and `rain` itself does
+[this](https://github.com/ankur-gupta/rain/blob/master/setup.py#L16).
 
-PyPI, by default, expects `long_description` in reStructuredText. If a 
+PyPI, by default, expects `long_description` in reStructuredText. If a
 Markdown-formatted `long_description` is provided when PyPI is expecting
 reStructuredText,  publishing to PyPI fails with an error message like this:
 ```text
-HTTPError: 400 Client Error: The description failed to render in the default 
-format of reStructuredText. See https://test.pypi.org/help/#description-content-type 
+HTTPError: 400 Client Error: The description failed to render in the default
+format of reStructuredText. See https://test.pypi.org/help/#description-content-type
 for more information.
 ```
-Luckily, this can be easily fixed by simply 
-[providing the markup format](https://packaging.python.org/tutorials/packaging-projects/#creating-setup-py) 
+Luckily, this can be easily fixed by simply
+[providing the markup format](https://packaging.python.org/tutorials/packaging-projects/#creating-setup-py)
 in `setup.py`:
 ```python
 setup(
@@ -497,21 +501,21 @@ setup(
     long_description_content_type="text/markdown",
     ...)
 ```
-See the example in this repository 
+See the example in this repository
 [here](https://github.com/ankur-gupta/rain/blob/master/setup.py#L28).
-Also, see the FAQs on 
-[Test PyPI](https://test.pypi.org/help/#description-content-type) 
+Also, see the FAQs on
+[Test PyPI](https://test.pypi.org/help/#description-content-type)
 or [PyPI](https://pypi.org/help/#description-content-type).
 
 ## Adding badges to your README
 Adding badges is a great way of letting people know about key information.
-See the top of this 
-[README file in raw format](https://raw.githubusercontent.com/ankur-gupta/rain/master/README.md) 
-to see the Markdown that include badges. 
+See the top of this
+[README file in raw format](https://raw.githubusercontent.com/ankur-gupta/rain/master/README.md)
+to see the Markdown that include badges.
 
 ### GitHub Actions badge
-After you've defined a Github Action (aka workflow), you can get the Markdown 
-for the badge from the 
+After you've defined a Github Action (aka workflow), you can get the Markdown
+for the badge from the
 [GitHub Actions webpage](https://github.com/ankur-gupta/rain/actions).
 Click on an event (eg: `build` for `rain`) and click on `Create Status badge`.
 Here is an example:
@@ -520,7 +524,7 @@ Here is an example:
 ```
 
 ### codecov.io coverage badge
-Once you've added a GitHub repository to your codecove.io account, you can 
+Once you've added a GitHub repository to your codecove.io account, you can
 obtain the badge Markdown from the "Badge" tab in the "Settings" page.
 Here is an example:
 ```markdown
@@ -529,8 +533,8 @@ Here is an example:
 
 ### PyPI version badge
 If you package is on PyPI, you can generate a badge Markdown from a third-party
-website such as [shields.io](https://shields.io/) or 
-[badge.fury.io](https://badge.fury.io/). This is an example Markdown for 
+website such as [shields.io](https://shields.io/) or
+[badge.fury.io](https://badge.fury.io/). This is an example Markdown for
 another package (because this package is not the `rain` package on PyPI).
 ```markdown
 [![PyPI Latest Release](https://img.shields.io/pypi/v/flicker.svg)](https://pypi.org/project/flicker/)
