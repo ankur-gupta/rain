@@ -73,7 +73,7 @@ Expanding upon this post:
 - makes setting up virtual environments easy
 - lets you install dependencies of a package easily without having to install
 the package (`rain`, in this case) itself. This is especially useful for
-CI/CD pipelines (see example TODO(ankur)).
+CI/CD pipelines (see [an example in `rain`](https://github.com/ankur-gupta/rain/blob/master/.github/workflows/build.yml#L22)).
 - allows you to install packages that are not necessarily dependencies of
 your package. For example, your package (eg: `rain`) may not depend on
 `pandas` but `pandas` may be a commonly used package that is used alongside
