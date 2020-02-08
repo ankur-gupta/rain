@@ -3,13 +3,15 @@ from setuptools import setup
 PACKAGE_NAME = 'rain'
 
 # Read-in the version
+# See 3 in https://packaging.python.org/guides/single-sourcing-package-version/
 version_file = './{}/version.py'.format(PACKAGE_NAME)
+version = {}
 try:
     # Python 2
-    execfile(version_file)
+    execfile(version_file, version)
 except NameError:
     # Python 3
-    exec(open(version_file).read())
+    exec(open(version_file).read(), version)
 
 # Read-in the README.md
 with open('README.md', 'r') as f:
@@ -17,7 +19,7 @@ with open('README.md', 'r') as f:
 readme = ''.join(readme)
 
 setup(name=PACKAGE_NAME,
-      version=__version__,
+      version=version['__version__'],
       url='https://github.com/ankur-gupta/rain',
       author='Ankur Gupta',
       author_email='ankur@perfectlyrandom.org',
