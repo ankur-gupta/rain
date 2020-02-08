@@ -289,7 +289,8 @@ setup(
     long_description_content_type="text/markdown",
     ...)
 ```
-See the example in this repository [here]() (TODO(ankur)).
+See the example in this repository 
+[here](https://github.com/ankur-gupta/rain/blob/master/setup.py#L28).
 Also, see the FAQs on 
 [Test PyPI](https://test.pypi.org/help/#description-content-type) 
 or [PyPI](https://pypi.org/help/#description-content-type).
