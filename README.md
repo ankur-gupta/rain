@@ -23,7 +23,6 @@ This template covers these topics.
 * adding badges to your README
 
 ## Folder Structure
-This is the folder structure:
 ```
 .
 ├── .coveragerc
@@ -296,18 +295,23 @@ machine or a docker container that
 [exists only for the purpose](https://www.youtube.com/watch?v=qUYvIAP3qQk) 
 of implementing CI/CD.
 
+GitHub Actions is one CI/CD framework. You can see the corresponding
+YAML files in
+[`.github/workflows`](https://github.com/ankur-gupta/rain/tree/master/.github/workflows).
+
 ## Deploying to PyPI
 TODO(ankur)
 
 ### Note about using Markdown-formatted `long_description`
 Many repositories use Markdown-formatted `README.md` as the value to the 
 `long_description` argument in `setuptools.setup()` in `setup.py`. This
-is especially true for GitHub repositories and `rain` itself does this. 
+is especially true for GitHub repositories and `rain` itself does 
+[this](https://github.com/ankur-gupta/rain/blob/master/setup.py#L16). 
 
 PyPI, by default, expects `long_description` in reStructuredText. If a 
 Markdown-formatted `long_description` is provided when PyPI is expecting
 reStructuredText,  publishing to PyPI fails with an error message like this:
-```bash
+```text
 HTTPError: 400 Client Error: The description failed to render in the default 
 format of reStructuredText. See https://test.pypi.org/help/#description-content-type 
 for more information.
@@ -331,6 +335,39 @@ or [PyPI](https://pypi.org/help/#description-content-type).
 ### Deploying via GitHub Actions
 See this post for
 [details](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
+
+## Adding badges to your README
+Adding badges is a great way of letting people know about key information.
+See the top of this 
+[README file in raw format](https://raw.githubusercontent.com/ankur-gupta/rain/master/README.md) 
+to see the Markdown that include badges. 
+
+### GitHub Actions badge
+After you've defined a Github Action (aka workflow), you can get the Markdown 
+for the badge from the 
+[GitHub Actions webpage](https://github.com/ankur-gupta/rain/actions).
+Click on an event (eg: `build` for `rain`) and click on `Create Status badge`.
+Here is an example:
+```markdown
+![build](https://github.com/ankur-gupta/rain/workflows/build/badge.svg)
+```
+
+### codecov.io coverage badge
+Once you've added a GitHub repository to your codecove.io account, you can 
+obtain the badge Markdown from the "Badge" tab in the "Settings" page.
+Here is an example:
+```markdown
+[![codecov](https://codecov.io/gh/ankur-gupta/rain/branch/master/graph/badge.svg)](https://codecov.io/gh/ankur-gupta/rain)
+```
+
+### PyPI version badge
+If you package is on PyPI, you can generate a badge Markdown from a third-party
+website such as [shields.io](https://shields.io/) or 
+[badge.fury.io](https://badge.fury.io/). This is an example Markdown for 
+another package (because this package is not the `rain` package on PyPI).
+```markdown
+[![PyPI Latest Release](https://img.shields.io/pypi/v/flicker.svg)](https://pypi.org/project/flicker/)
+```
 
 ## Correct way to do intra-package imports
 Python importing is complicated. These links provide good information:
