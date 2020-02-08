@@ -1,18 +1,28 @@
 # Rain
+![build](https://github.com/ankur-gupta/rain/workflows/build/badge.svg)
+[![codecov](https://codecov.io/gh/ankur-gupta/rain/branch/master/graph/badge.svg)](https://codecov.io/gh/ankur-gupta/rain)
 
-## A template for python packaging
+**A living template for python packaging, testing, building, & deploying**
+
 This python package provides a template for other python packages. The aim
 is to serve as a live, working template that can be explored visually by
 humans to understand and perhaps copy/paste from. In other words, this
 `rain` serves as a living, dynamic alternative to static documentation.
-This template contains:
+This template covers these topics.
 
 * correct way of importing within packages
 * entry point scripts
-* data files
-* version information
-* coverage
+* storing data files
+* properly storing version information in one location
+* specifying dependencies
+* obtaining coverage metrics and uploading them to a website like codecov.io
+* installing and uninstalling this package locally
+* building this package locally
+* example CI/CD using GitHub Actions
+* deploying to PyPI
+* adding badges to your README
 
+## Folder Structure
 This is the folder structure:
 ```
 .
@@ -50,7 +60,7 @@ typically refers to the user-site python installations that are outside
 the virtual environments. Within a virtual environment, replace `python3` with
 `python`. Same goes for `pip3` to `pip`.
 
-## Why do we define dependencies in both `setup.py` and `requirements.txt`?
+### Why do we define dependencies in both `setup.py` and `requirements.txt`?
 Both these files serve different objectives that are somewhat mutually
 exclusive and therefore we often need both. This
 [Stack Overflow post](https://stackoverflow.com/questions/43658870/requirements-txt-vs-setup-py)
@@ -58,7 +68,7 @@ describes this issue quite well. This post also describes how you can
 only list the dependencies in `setup.py` and "link" them in `requirements.txt`.
 Expanding upon this post:
 
-### `requirements.txt`
+#### `requirements.txt`
 - helps you setup your environment in "one fell swoop"
 - can be used by `pip` instead of using `python setup.py`
 - makes setting up virtual environments easy
@@ -74,7 +84,7 @@ your package. For example, your package (eg: `rain`) may not depend on
 `rain` but not everyone else will.
  - is easier to edit than `setup.py` and allows comments
 
- ### `setup.py`
+ #### `setup.py`
  - helps you install all dependencies when installing the package (depending
  upon options used with `python setup.py install`)
  - ensures that all specified dependencies of the package are installed
@@ -318,12 +328,9 @@ Also, see the FAQs on
 [Test PyPI](https://test.pypi.org/help/#description-content-type) 
 or [PyPI](https://pypi.org/help/#description-content-type).
 
- 
-
 ### Deploying via GitHub Actions
 See this post for
 [details](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
-
 
 ## Correct way to do intra-package imports
 Python importing is complicated. These links provide good information:
