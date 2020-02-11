@@ -1,6 +1,6 @@
 name: build
 
-on: ["push", "pull_request"]
+on: [push]
 
 jobs:
   build:
@@ -38,8 +38,8 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         # CODECOV_TOKEN is repo-specific and it must be copied from codecov.io for the repository
-        # and stored as a secret in GitHub's repository Settings > Secrets. CODECOV_TOKEN does not 
+        # and stored as a secret in GitHub's repository Settings > Secrets. CODECOV_TOKEN does not
         # need to be stored in codecov.io as a secret even though codecov.io provides that feature.
-        token: ${{ secrets.CODECOV_TOKEN }}  
+        token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.xml  # file where pytest-cov will store results
         fail_ci_if_error: true
