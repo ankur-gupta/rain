@@ -6,7 +6,7 @@
 
 This python package provides a template for other python packages. The aim
 is to serve as a live, working template that can be explored visually by
-humans to understand and perhaps copy/paste from. In other words, this
+humans to understand and perhaps copy/paste from. In other words,
 `rain` serves as a living, dynamic alternative to static documentation.
 This template covers these topics.
 
@@ -415,7 +415,7 @@ discussed in the subsection above.
 package.
 
 ## Deploying to PyPI
-Since I don't own the name `rain` on PyPI (and at this point I don't want to
+Since I don't own the name `rain` on PyPI (and, at this point, I don't want to
 change the name of my package), I don't have a live example of deploying this
 package on PyPI.
 

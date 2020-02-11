@@ -36,6 +36,9 @@ setup(name=PACKAGE_NAME,
         [console_scripts]
         rain_maker=rain.scripts.rain_maker:make_it_rain
       ''',
+      classifiers=[
+          "License :: OSI Approved :: MIT License",
+      ],
       install_requires=['click', 'six', 'numpy', 'future'],
       setup_requires=['pytest-runner'],
       # pytest-cov needed for coverage only
