@@ -251,12 +251,18 @@ Turing, Frege, Cantor, Bernoulli, Weirstrauss, Einstein, Boole, Kolmogorov, Gaus
 Godel, Poincare, Banach, Bernoulli, Newton, Maxwell, Lagrange, Huygens, Riemann, Chebyshev
 ```
 
-## Build Package Locally
+## Build Package & Source Distributions
 You can build a tarball and a wheel like so.
 ```bash
 # Ensure that the package `wheel` installed.
 cd $REPO_ROOT
+
+# builds only .tar.gz
 python setup.py sdist bdist_wheel
+
+# builds both zip and tar.gz
+python3 setup.py sdist --formats=gztar,zip bdist_wheel
+
 # Check $REPO_ROOT/dist for both tarball and wheel files.
 ```
 If you encounter an
@@ -266,6 +272,86 @@ package installed. You can install `wheel` via `pip`:
 ```bash
 pip install --user wheel
 ```
+
+### Including package data and other files
+`rain` contains a data file
+[$REPO_ROOT/rain/resources/mathematicians.txt](https://github.com/ankur-gupta/rain/blob/master/rain/resources/mathematicians.txt)
+that is used by the package. This file is used by the function
+[`load_mathematicians`](https://github.com/ankur-gupta/rain/blob/master/rain/__init__.py#L27)
+. We want this data file to travel with any distribution of this python
+package. In `rain`, we generate three distributions -- a wheel, a tar.gz, and
+a zip file. The tar.gz and zip files have the exact same contents and behavior
+with the difference only being in the compression format. But, a wheel and a
+tar.gz/zip often different contents and have different purposes.
+
+#### Wheel (`.whl`) _vs_ sdists (`.tar.gz` or `.zip`)
+This
+[Stack Overflow post](https://stackoverflow.com/questions/31401762/python-packaging-wheels-vs-tarball-tar-gz)
+describes the advantages of a wheel over a tar.gz (or zip) file. A tar.gz/zip
+file is great for distributing source code but installing from a tar.gz/zip
+file requires use of `distutils` and `setuptools` which is slow and requires running
+arbitrary code. A wheel avoids these issues and is the better way to distribute/store artifacts
+(analogous to `jar` in Java).
+
+#### Packaging data within distributions
+There seem to be two ways to include data in the distributions -- via
+`setup.py` and via `MANIFEST.in`. Sadly, the combination of these produces
+a variety of results as shown in the table below. You can also read about it
+[here](https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files).
+
+| | `package_data` in `setup.py`          | `include_package_data` in `setup.py` | `MANIFEST.in`               | `.whl` contains data | `.zip` contains data | `.tar.gz` contains data |
+|-|---------------------------------------|--------------------------------------|-----------------------------|----------------------|----------------------|-------------------------|
+|1| Not present                           | Not present                          | Does not exist or is empty  | ❌                   | ❌                   | ❌                     |
+|2| `{PACKAGE_NAME: ['resources/*.txt']}` | Not present                          | Does not exist or is empty  | ✅                   | ✅                   | ✅                     |
+|3| `{PACKAGE_NAME: ['resources/*.txt']}` | `True`                               | Does not exist or is empty  | ✅                   | ❌                   | ❌                     |
+|4| Not present                           | `True`                               | Does not exist or is empty  | ❌                   | ❌                   | ❌                     |
+|5| `{PACKAGE_NAME: ['resources/*.txt']}` | `True`                               | `include */resources/*.txt` | ✅                   | ✅                   | ✅                     |
+|6| `{PACKAGE_NAME: ['resources/*.txt']}` | Not present                          | `include */resources/*.txt` | ✅                   | ✅                   | ✅                     |
+|7| Not present                           | Not present                          | `include */resources/*.txt` | ❌                   | ✅                   | ✅                     |
+|**8**| **Not present**                           | **`True`**                               | **`include */resources/*.txt`** | ✅                   | ✅                   | ✅                     |
+
+_(there was
+[no need](https://stackoverflow.com/questions/13307408/python-packaging-data-files-are-put-properly-in-tar-gz-file-but-are-not-install)
+to put a `__init__.py` file in `$REPO_ROOT/rain/resources` for any of the above
+rows)_
+
+The above table demonstrates the confusing behavior of python packaging.
+Rows #2, #5, #6, #8 seem to ensure that we can distribute the data in all three
+formats. Note that #7 is especially egregious because it creates
+a `.whl` file that does not have the data resuling in an error when the package is used (even
+though the installation succeeds).
+
+The following is a good rule of thumb to remember:
+1. If `include_package_data=True`, you must provide a `MANIFEST.in`.
+2. If you want to enforce `MANIFEST.in`, you must set
+`include_package_data=True`.
+
+In `rain`, we choose the approach from row #8 because it works for all three distribution
+formats while still allowing us to list the files in only one location (`MANIFEST.in`).
+
+### Including tests in distributions
+Typically, `tests` folder contains `__init__.py` file which makes it a
+python module. In `rain`,
+[`rain/tests`](https://github.com/ankur-gupta/rain/tree/master/rain/tests)
+does indeed contain `__init__.py` file. When `tests` are indeed a python module, the best way to
+include tests is to simply list `tests` as a package in `setup.py` like so. Python modules are
+always distributed in all formats irrespective of whether or not you have a `MANIFEST.in` file.
+```python
+packages=[PACKAGE_NAME,
+          '{}.scripts'.format(PACKAGE_NAME),
+          '{}.module_three'.format(PACKAGE_NAME),
+          ...,
+          '{}.tests'.format(PACKAGE_NAME)],
+```
+
+### Why does my `.tar.gz`/`.zip` file contain a `rain.egg-info` folder?
+There are messy reasons for this and you can see this
+[Stack Overflow post](https://stackoverflow.com/questions/3779915/why-does-python-setup-py-sdist-create-unwanted-project-egg-info-in-project-r)
+for more discussion. Note that trying to exclude `PACKAGE_NAME.egg-info` via `MANIFEST.in` doesn't
+work. This seems to be alluded to
+[here](https://packaging.python.org/guides/using-manifest-in/#how-files-are-included-in-an-sdist).
+Unless you have a very advanced/specific use case, having `PACKAGE_NAME.egg-info` in your
+`.tar.gz`/`.zip` file should not cause any problems and you can simply ignore it.
 
 ## Example CI/CD using GitHub Actions
 Setting up CI/CD depends on the CI/CD platform you are using. As of writing
@@ -324,8 +410,9 @@ using the version specified in `setup.py` as the `version` argument to
 ```bash
 $ cd $REPO_ROOT
 $ ls dist/
-rain-0.0.1-py3-none-any.whl
-rain-0.0.1.tar.gz
+rain-0.0.4-py3-none-any.whl
+rain-0.0.4.zip
+rain-0.0.4.tar.gz
 ```
 Typically, we want to make the package version available to the python
 interpreter as well. However, we want to store the version exactly once
@@ -643,3 +730,12 @@ packages=[PACKAGE_NAME,
 ```
 If you don't list the package(s), then you might find that your package
 installs but is actually empty in `site-packages` location.
+
+
+## License
+[MIT](https://github.com/ankur-gupta/rain/blob/master/LICENSE)
+
+## Contributing
+Contributions are welcome. If you find errors or identify need for
+improvement, please look into
+[Issues](https://github.com/ankur-gupta/rain/issues) and open an issue.
