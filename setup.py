@@ -21,6 +21,7 @@ readme = ''.join(readme)
 setup(name=PACKAGE_NAME,
       version=version['__version__'],
       url='https://github.com/ankur-gupta/rain',
+      license='MIT',
       author='Ankur Gupta',
       author_email='ankur@perfectlyrandom.org',
       description='Template python package',
@@ -30,8 +31,7 @@ setup(name=PACKAGE_NAME,
       packages=[PACKAGE_NAME,
                 '{}.scripts'.format(PACKAGE_NAME),
                 '{}.module_three'.format(PACKAGE_NAME)],
-      package_data={PACKAGE_NAME: ['resources/*.txt']},
-      include_package_data=True,
+      include_package_data=True,  # => if True, you must provide MANIFEST.in
       entry_points='''
         [console_scripts]
         rain_maker=rain.scripts.rain_maker:make_it_rain

@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+# Run from $REPO_ROOT like so:
+# cd $REPO_ROOT
+# ./scripts/build-package
+
+# Package both as tar.gz, zip, and wheel
+# See https://docs.python.org/2/distutils/sourcedist.html
+python3 setup.py sdist --formats=gztar,zip bdist_wheel
+
+# Show the contents of the $REPO_ROOT/dist/
+ls dist/
