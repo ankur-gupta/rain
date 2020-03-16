@@ -22,6 +22,58 @@ This template covers these topics.
 * deploying to PyPI
 * adding badges to your README
 
+## How is it different from [pyscaffold](https://pyscaffold.org/en/latest/) or [cookiecutter](https://cookiecutter.readthedocs.io/)?
+The aims and capabilities of `rain` are very different that pyscaffold or
+cookiecutter.
+
+### Capabilities
+Both [pyscaffold](https://github.com/pyscaffold/pyscaffold) and
+[cookiecutter](https://github.com/cookiecutter/cookiecutter) provide you with
+executable tools to generate a package skeleton on disk. They are excellent
+tools for expert package writers who want a quick start.
+`rain` provides no such capability. In fact, if you were to clone this
+repository to start your project, you'll have to modify a lot of code
+by hand which would almost always take more time (and may still have errors)
+than if you were to manually create all the files one-by-one.
+
+### Aims
+`rain` is a _live and unencumbered reference_ that aims to _educate not execute_.
+
+#### Online reference
+Unlike pyscaffold or cookiecutter, you don't have to execute any command on
+your machine to get a working example as a reference. You can explore the code online
+on GitHub.
+
+#### Explanation by examples
+Concepts and decisions are explained via examples. Package authors often
+want to understand the consequences of their decisions. For example, in this README,
+we answer the question of why can we list dependencies in both `setup.py` and
+`requirements.txt`.
+
+#### Less code to browse through
+The famous python packages (for example, `numpy` or `pandas`) probably have
+the functionality/feature that you want to emulate in your own package but you will have
+to browse through a lot of complexity before you can find what you're looking
+for. This repository only contains files that help illustrate python packaging.
+
+#### Add features at your own pace
+Tools that generate a package skeleton either overwhelm you with all the
+features from the start or require you to know enough to select only the
+features you need. `rain` is a reference that you can consult to understand
+various features, make an informed decision on which features you need, and then
+learn how to correctly implement them manually in your own package.
+
+#### Tests and builds via GitHub Actions
+Writing a package often comes with the additional task of setting up tests
+and CI/CD pipeline(s). These concepts are best explained via live, working
+examples instead of theory alone.
+
+#### Clone/fork and experiment
+Since `rain` is live, you can clone or fork this repository and experiment
+with feature modifications before you decide to implement them in your own
+python package.
+
+
 ## Folder Structure
 ```
 .
