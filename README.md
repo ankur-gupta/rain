@@ -22,9 +22,7 @@ This template covers these topics.
 * deploying to PyPI
 * adding badges to your README
 
-## How is it different from [pyscaffold](https://pyscaffold.org/en/latest/) or
-[cookiecutter](https://cookiecutter.readthedocs.io/)?
-
+## How is it different from [pyscaffold](https://pyscaffold.org/en/latest/) or [cookiecutter](https://cookiecutter.readthedocs.io/)?
 The aims and capabilities of `rain` are very different that pyscaffold or
 cookiecutter.
 
