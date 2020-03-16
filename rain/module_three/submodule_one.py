@@ -3,7 +3,7 @@ from __future__ import print_function
 from __future__ import division
 from builtins import range
 
-from rain import function_two
+from rain.module_two import function_two
 
 GLOBAL_VARIABLE_THREE = 3
 
