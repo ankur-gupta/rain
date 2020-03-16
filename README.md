@@ -90,7 +90,7 @@ python package.
 ├── setup.py
 ├── scripts
 │   └── build-package
-├── rain
+└── rain
     ├── __init__.py
     ├── compat.py
     ├── module_fruits.py
