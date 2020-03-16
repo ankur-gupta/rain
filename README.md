@@ -2,19 +2,19 @@
 ![build](https://github.com/ankur-gupta/rain/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/ankur-gupta/rain/branch/master/graph/badge.svg)](https://codecov.io/gh/ankur-gupta/rain)
 
-**A living template for python packaging, testing, building, & deploying**
+**A live example to illustrate python packaging, testing, building, & deploying**
 
-This python package provides a template for other python packages. The aim
-is to serve as a live, working template that can be explored visually by
-humans to understand and perhaps copy/paste from. In other words,
-`rain` serves as a living, dynamic alternative to static documentation.
-This template covers these topics.
+`rain` is an online reference that can be explored by
+humans. It provides a living, dynamic alternative to commonly available 
+[static documentation](https://packaging.python.org/). This repository covers 
+the following topics.
 
 * correct way of importing within packages
 * entry point scripts
-* storing data files
+* storing and distributing data files
 * properly storing version information in one location
 * specifying dependencies
+* running and skipping tests
 * obtaining coverage metrics and uploading them to a website like codecov.io
 * installing and uninstalling this package locally
 * building this package locally
@@ -23,7 +23,7 @@ This template covers these topics.
 * adding badges to your README
 
 ## How is it different from [pyscaffold](https://pyscaffold.org/en/latest/) or [cookiecutter](https://cookiecutter.readthedocs.io/)?
-The aims and capabilities of `rain` are very different that pyscaffold or
+The aims and capabilities of `rain` are very different than that of pyscaffold or
 cookiecutter.
 
 ### Capabilities
@@ -114,7 +114,7 @@ python package.
     └── version.py
 ```
 
-The template is designed to work with both python2 and python3 but is only
+The package is designed to work with both python2 and python3 but is only
 tested on python3, as of now. Throughout this documentation, `python3`
 typically refers to the user-site python installations that are outside
 the virtual environments. Within a virtual environment, replace `python3` with
