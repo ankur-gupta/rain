@@ -79,30 +79,39 @@ python package.
 .
 ├── .coveragerc
 ├── .gitignore
+├── .github
+│   └── workflows
+│       └── build.yml
+├── LICENSE
 ├── README.md
+├── pytest.ini
+├── MANIFEST.in
 ├── requirements.txt
+├── setup.py
+├── scripts
+│   └── build-package
 ├── rain
-│   ├── __init__.py
-│   ├── compat.py
-│   ├── module_fruits.py
-│   ├── module_one.py
-│   ├── module_plantain.py
-│   ├── module_three
-│   │   ├── __init__.py
-│   │   ├── submodule_one.py
-│   │   └── submodule_two.py
-│   ├── module_two.py
-│   ├── resources
-│   │   └── mathematicians.txt
-│   ├── scripts
-│   │   ├── __init__.py
-│   │   └── rain_maker.py
-│   ├── tests
-│   │   ├── __init__.py
-│   │   ├── test_module_fruits.py
-│   │   └── test_module_one.py
-│   └── version.py
-└── setup.py
+    ├── __init__.py
+    ├── compat.py
+    ├── module_fruits.py
+    ├── module_one.py
+    ├── module_plantain.py
+    ├── module_three
+    │   ├── __init__.py
+    │   ├── submodule_one.py
+    │   └── submodule_two.py
+    ├── module_two.py
+    ├── resources
+    │   └── mathematicians.txt
+    ├── scripts
+    │   ├── __init__.py
+    │   └── rain_maker.py
+    ├── tests
+    │   ├── __init__.py
+    │   ├── test_module_fruits.py
+    │   ├── test_module_one.py
+    │   └── test_submodule_one.py
+    └── version.py
 ```
 
 The template is designed to work with both python2 and python3 but is only
