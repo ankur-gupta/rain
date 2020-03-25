@@ -1,3 +1,4 @@
+import logging
 import os
 
 from rain.version import __version__
@@ -16,6 +17,13 @@ from rain.module_three import function_three, function_four
 # file.
 from rain.module_fruits import apple, banana
 from rain.module_plantain import plantain
+
+# Define a logger for the whole package
+# See
+# https://realpython.com/python-logging-source-code/#library-vs-application-logging-what-is-nullhandler
+# https://docs.python.org/3/howto/logging.html#configuring-logging-for-a-library
+# https://stackoverflow.com/questions/27016870/how-should-logging-be-used-in-a-python-package
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 _ROOT = os.path.abspath(os.path.dirname(__file__))
 
