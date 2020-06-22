@@ -18,6 +18,17 @@ from rain.module_three import function_three, function_four
 from rain.module_fruits import apple, banana
 from rain.module_plantain import plantain
 
+# Import from the files that demonstrates circular dependencies.
+# If we comment out the two lines below, then we may not encounter any
+# ImportError even if our circular imports are incorrect. This is because
+# ImportError due to circular imports occurs only when we actually import
+# from one of the files that are involved in the circular import. But the
+# error would exist and would appear when the user tries to import Array
+# or GroupedArray. Otherwise, these lines don't interfere with circular
+# imports at all.
+from rain.module_circular.array import Array
+from rain.module_circular.group import GroupedArray
+
 # Define a logger for the whole package
 # See
 # https://realpython.com/python-logging-source-code/#library-vs-application-logging-what-is-nullhandler
