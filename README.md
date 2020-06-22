@@ -742,6 +742,68 @@ See the [Stack Overflow post](https://stackoverflow.com/questions/5811463/when-t
 that recommends using absolute full-path imports within a package, whenever
 possible. But, explicit relative imports are okay.
 
+### Circular imports or dependencies
+It is common to encounter circular dependencies in complicated projects with 
+many interrelated classes. As an example, consider any dataframe with a 
+`groupby` method. For specificity, consider a `pandas` `DataFrame`:
+`DataFrame.groupby()` returns a `DataFrameGroupBy` object and 
+`DataFrameGroupBy.count()` returns a `DataFrame` object. Since `DataFrame` and
+`DataFrameGroupBy` are defined in different files (for maintainability 
+reasons), we need to import `DataFrameGroupBy` in the file that contains 
+the definition of `DataFrame` and vice versa. This forms a 
+**circular dependency**.
+
+When we have a circular dependency, we cannot import at the top of the files
+like we usually do. Doing so causes `ImportError`, as discussed in the 
+StackOverflow posts, 
+[here](https://stackoverflow.com/questions/894864/circular-dependency-in-python)
+and [here](https://stackoverflow.com/questions/744373/circular-or-cyclic-imports-in-python).
+
+```python
+# Example ImportError which we fixed using one of the methods below
+ImportError: cannot import name 'Array' from 'rain.module_circular.array'
+```
+The error appears only when you actually import from one of the files that are 
+involved in the circular import. Thus, successful import of the package alone 
+is insufficient in testing if the circular dependencies are indeed imported 
+correctly. Note that the error exists irrespective of whether you use 
+*absolute full-path imports* and *explicit relative imports*.
+
+In `rain`, we have recreated a similar circular dependency using 
+`Array` and `GroupedArray` in the files 
+[`$REPO_ROOT/rain/module_circular/array.py`](https://github.com/ankur-gupta/rain/blob/master/rain/module_circular/array.py)
+and 
+[`$REPO_ROOT/rain/module_circular/group.py`](https://github.com/ankur-gupta/rain/blob/master/rain/module_circular/group.py),
+respectively. See 
+[`$REPO_ROOT/rain/scripts/demo_circular_imports.py`](https://github.com/ankur-gupta/rain/blob/master/scripts/demo_circular_imports.py)
+for a working demo. 
+
+Note that having a circular dependency is itself not a problem for python. 
+The problem is only that we cannot import at the top of the files. 
+There are a few ways to fix circular import issues:
+
+1. As mentioned in the comments 
+[here](https://stackoverflow.com/questions/894864/circular-dependency-in-python),
+we can move the two classes in the same file. With respect to our example,
+that would mean moving `Array` and `GroupedArray` classes in the same file.
+This option may be suitable for small classes but is often not recommended 
+for complicated projects with large classes.
+
+2. Local or [deferred](https://stackoverflow.com/a/37126790/4383754) 
+imports. Instead of importing at the top of the file, 
+we import locally, within a method, as needed. See 
+[`$REPO_ROOT/rain/module_circular/group.py`](https://github.com/ankur-gupta/rain/blob/master/rain/module_circular/group.py#L30)
+for an example. Pandas uses this method as well, see 
+[this line](https://github.com/pandas-dev/pandas/blob/80ba4c4294a1ce1d95aeeb8e5de86d33ebb6edf4/pandas/core/groupby/groupby.py#L2877).
+
+3. Move the import statements involved in the circular dependency to the 
+end of the file, as suggested 
+[here](https://effbot.org/zone/import-confusion.htm#circular-imports).
+
+Finally, for circular imports needed for type hinting alone, 
+[this](https://www.stefaanlippens.net/circular-imports-type-hints-python.html) 
+may be yet  another solution. 
+
 ### Check that everything imports correctly
 You can run the following commands in one of two ways:
  - Run from `$REPO_ROOT` without installing the package. Event if you install
@@ -768,6 +830,14 @@ print(plantain())
 # apple
 # plantain
 # plantain
+```
+
+Check that circular dependencies can be imported correctly.
+```python
+from rain import Array
+x = Array([1, 2, 3, 1])
+print(x.group().groups())
+# Array[3]
 ```
 
 ## Troubleshooting
