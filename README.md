@@ -765,16 +765,23 @@ ImportError: cannot import name 'Array' from 'rain.module_circular.array'
 ```
 The error appears only when you actually import from one of the files that are 
 involved in the circular import. Thus, successful import of the package alone 
-is insufficient in testing if the circular dependencies are indeed imported 
-correctly. Note that the error exists irrespective of whether you use 
-*absolute full-path imports* and *explicit relative imports*.
+is insufficient in testing whether or not the circular dependencies are indeed 
+imported correctly. Note that the error exists irrespective of whether you use 
+*absolute full-path imports* and *explicit relative imports*. The issue of 
+circular dependencies is orthogonal to the issue of absolute _vs_ relative 
+imports.
 
 In `rain`, we have recreated a similar circular dependency using 
 `Array` and `GroupedArray` in the files 
 [`$REPO_ROOT/rain/module_circular/array.py`](https://github.com/ankur-gupta/rain/blob/master/rain/module_circular/array.py)
 and 
 [`$REPO_ROOT/rain/module_circular/group.py`](https://github.com/ankur-gupta/rain/blob/master/rain/module_circular/group.py),
-respectively. See 
+respectively.
+
+1. `Array.group()` calls `GroupedArray`
+2. `GroupedArray.groups()` calls `Array`
+ 
+See 
 [`$REPO_ROOT/rain/scripts/demo_circular_imports.py`](https://github.com/ankur-gupta/rain/blob/master/scripts/demo_circular_imports.py)
 for a working demo. 
 
@@ -784,10 +791,11 @@ There are a few ways to fix circular import issues:
 
 1. As mentioned in the comments 
 [here](https://stackoverflow.com/questions/894864/circular-dependency-in-python),
-we can move the two classes in the same file. With respect to our example,
-that would mean moving `Array` and `GroupedArray` classes in the same file.
-This option may be suitable for small classes but is often not recommended 
-for complicated projects with large classes.
+we can move the two classes in the same file. For our example,
+that would mean defining both `Array` and `GroupedArray` classes in the same 
+file. This option may be suitable for small classes but is often not 
+recommended for complicated projects with large classes for readability and 
+maintainability.
 
 2. Local or [deferred](https://stackoverflow.com/a/37126790/4383754) 
 imports. Instead of importing at the top of the file, 
@@ -832,7 +840,9 @@ print(plantain())
 # plantain
 ```
 
-Check that circular dependencies can be imported correctly.
+Check that circular dependencies can be imported correctly. Alternatively,
+you can run
+[`$REPO_ROOT/rain/scripts/demo_circular_imports.py`](https://github.com/ankur-gupta/rain/blob/master/scripts/demo_circular_imports.py).
 ```python
 from rain import Array
 x = Array([1, 2, 3, 1])
