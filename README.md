@@ -78,40 +78,46 @@ python package.
 ```
 .
 ├── .coveragerc
-├── .gitignore
 ├── .github
 │   └── workflows
 │       └── build.yml
+├── .gitignore
 ├── LICENSE
+├── MANIFEST.in
 ├── README.md
 ├── pytest.ini
-├── MANIFEST.in
+├── rain
+│   ├── __init__.py
+│   ├── compat.py
+│   ├── module_circular
+│   │   ├── __init__.py
+│   │   ├── array.py
+│   │   └── group.py
+│   ├── module_fruits.py
+│   ├── module_one.py
+│   ├── module_plantain.py
+│   ├── module_three
+│   │   ├── __init__.py
+│   │   ├── submodule_one.py
+│   │   └── submodule_two.py
+│   ├── module_two.py
+│   ├── resources
+│   │   └── mathematicians.txt
+│   ├── scripts
+│   │   ├── __init__.py
+│   │   └── rain_maker.py
+│   ├── tests
+│   │   ├── __init__.py
+│   │   ├── test_module_fruits.py
+│   │   ├── test_module_one.py
+│   │   └── test_submodule_one.py
+│   └── version.py
 ├── requirements.txt
-├── setup.py
 ├── scripts
-│   └── build-package
-└── rain
-    ├── __init__.py
-    ├── compat.py
-    ├── module_fruits.py
-    ├── module_one.py
-    ├── module_plantain.py
-    ├── module_three
-    │   ├── __init__.py
-    │   ├── submodule_one.py
-    │   └── submodule_two.py
-    ├── module_two.py
-    ├── resources
-    │   └── mathematicians.txt
-    ├── scripts
-    │   ├── __init__.py
-    │   └── rain_maker.py
-    ├── tests
-    │   ├── __init__.py
-    │   ├── test_module_fruits.py
-    │   ├── test_module_one.py
-    │   └── test_submodule_one.py
-    └── version.py
+│   ├── build-package
+│   ├── demo_circular_imports.py
+│   └── use_logging.py
+└── setup.py
 ```
 
 The package is designed to work with both python2 and python3 but is only
