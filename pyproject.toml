@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatching.build"
+
+
+[project]
+name = "rain"
+version = "2.0.0"
+authors = [
+    { name = "Ankur Gupta", email = "7110058+ankur-gupta@users.noreply.github.com" },
+]
+description = "A live example to illustrate python packaging, testing, building, & deploying"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+keywords = ["template", "packaging", "testing", "building", "deploying"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/ankur-gupta/rain"
+Repository = "https://github.com/ankur-gupta/rain.git"
+
+[tool.hatch.version]
+path = "src/rain/version.py"
