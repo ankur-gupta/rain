@@ -33,6 +33,10 @@ path = "src/rain/version.py"
 python = ["3.9", "3.10", "3.11"]
 
 [tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+]
 exclude = [
   "/.github",
 ]

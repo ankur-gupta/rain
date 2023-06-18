@@ -1,5 +1,8 @@
 # 🌧️ rain
 
+![GitHub](https://img.shields.io/github/license/:ankur-gupta/:rain)
+
+
 **A live example to illustrate python packaging, testing, building, & deploying**
 
 `rain` is an online reference that can be explored by
