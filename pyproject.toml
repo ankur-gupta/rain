@@ -34,9 +34,10 @@ python = ["3.9", "3.10", "3.11"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-  "/src",
-  "/tests",
+    "/src",
+    "/tests",
+    "/resources",
 ]
 exclude = [
-  "/.github",
+    "/.github",
 ]
