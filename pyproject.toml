@@ -1,11 +1,11 @@
 [build-system]
 requires = ["hatchling"]
-build-backend = "hatching.build"
+build-backend = "hatchling.build"
 
 
 [project]
 name = "rain"
-version = "2.0.0"
+dynamic = ["version"]
 authors = [
     { name = "Ankur Gupta", email = "7110058+ankur-gupta@users.noreply.github.com" },
 ]
@@ -27,3 +27,12 @@ Repository = "https://github.com/ankur-gupta/rain.git"
 
 [tool.hatch.version]
 path = "src/rain/version.py"
+
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.9", "3.10", "3.11"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+]
