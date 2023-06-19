@@ -27,12 +27,24 @@ dependencies = [
 Homepage = "https://github.com/ankur-gupta/rain"
 Repository = "https://github.com/ankur-gupta/rain.git"
 
-
 [project.scripts]
 rain_maker = "rain.cli.rain_maker:make_it_rain"
 
 [tool.hatch.version]
 path = "src/rain/version.py"
+
+[tool.hatch.envs.test]
+dependencies = [
+    "coverage[toml]",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+]
+
+# Run using `hatch run test:coverage` and `hatch run test:no-coverage`
+[tool.hatch.envs.test.scripts]
+coverage = "pytest --cov-config=pyproject.toml --cov=rain --cov=tests"
+no-coverage = "coverage --no-cov"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.10", "3.11"]

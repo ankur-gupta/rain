@@ -1,3 +1,7 @@
+# `REPO_ROOT/src/rain/cli` contains executable entry point scripts that are provided by this
+# package. You need to install `rain` for these scripts to work.
+# Compare this against `REPO_ROOT/scripts` which contains executable scripts needed to build this
+# package.
 import click
 import random
 
