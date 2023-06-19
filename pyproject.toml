@@ -19,15 +19,20 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = []
+dependencies = [
+    "click>=8.0.3"
+]
 
 [project.urls]
 Homepage = "https://github.com/ankur-gupta/rain"
 Repository = "https://github.com/ankur-gupta/rain.git"
 
+
+[project.scripts]
+rain_maker = "rain.cli.rain_maker:make_it_rain"
+
 [tool.hatch.version]
 path = "src/rain/version.py"
-
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.10", "3.11"]
@@ -36,7 +41,6 @@ python = ["3.9", "3.10", "3.11"]
 include = [
     "/src",
     "/tests",
-    "/resources",
 ]
 exclude = [
     "/.github",
