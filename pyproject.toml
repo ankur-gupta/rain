@@ -47,7 +47,13 @@ coverage = "pytest --cov-config=pyproject.toml --cov=rain --cov=tests"
 no-coverage = "coverage --no-cov"
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.9", "3.10", "3.11"]
+python = ["3.9", "3.11"]
+
+[tool.coverage.run]
+omit = [
+    "src/rain/resources/",
+    "tests/*.py"
+]
 
 [tool.hatch.build.targets.sdist]
 include = [
