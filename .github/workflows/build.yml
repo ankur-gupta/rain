@@ -1,0 +1,57 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip hatch pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Test
+      run: |
+        hatch run test:notrandom
+    - name: Clean and build
+      run: |
+        hatch clean
+        hatch build
+    - name: Check that package is installable
+      run: |
+        pwd
+        pip install dist/rain-*.whl
+    - name: Codecov
+      uses: codecov/codecov-action@v3.1.4
+      # Alternatively, you may pin to the exact commit or the version.
+      # uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d
+      with:
+        # Repository upload token - get it from codecov.io. Required only for private repositories.
+        # token: ${{ secrets.CODECOV_TOKEN }}
+        
+        # Path to coverage file to upload
+        file: .coverage
+        
+        # Specify whether or not CI build should fail if Codecov runs into an error during upload
+        fail_ci_if_error: true
+        
+        # Search Codecov on the RHS panel for a full snippet with other options.
