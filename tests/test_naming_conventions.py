@@ -9,7 +9,7 @@ import pytest
 
 
 def this_is_not_a_test():
-    # Since this is not a test function, the following assert statement won't fail
+    # Since this is not a test function, the following assert statement won't be tested
     assert 1 == 2
 
 
@@ -20,13 +20,13 @@ def test_this_is_a_test():
 
 class ThisIsNotATestClass:
     def test_method(self):
-        # Since this is not a test class, the following assert statement won't fail
+        # Since this is not a test class, the following assert statement won't be tested
         assert 1 == 2
 
 
 class TestClass:
     def this_is_not_a_test_method(self):
-        # Since this is not a test method, the following assert statement won't fail
+        # Since this is not a test method, the following assert statement won't be tested
         assert 1 == 2
 
     def test_method(self):

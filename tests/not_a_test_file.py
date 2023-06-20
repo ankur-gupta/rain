@@ -9,10 +9,10 @@ import pytest
 
 
 def this_is_also_not_a_test():
-    # Since this is not a test file or a test function, the following assert statement won't fail
+    # Since this is not a test file or a test function, the following assert statement won't be tested
     assert 1 == 2
 
 
 def test_this_will_not_be_tested():
-    # Since this is not a test file, the following assert statement won't fail
+    # Since this is not a test file, the following assert statement won't be tested
     assert 1 == 2
