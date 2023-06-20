@@ -36,7 +36,7 @@ the following topics.
 `rain` uses [hatch](https://hatch.pypa.io/latest/) to build package, run tests, update version, and more. 
 If you want to create an empty scaffold for a new package you should use 
 [`hatch new my-project`](https://hatch.pypa.io/latest/intro/). `rain` provides an online reference you can peruse to 
-learn about how the topics mentioned above.
+learn about the topics mentioned above.
 
 ### Learn by examples
 You can find all the details in a written, textual documentation. But, if you don't want to read the documentation 
