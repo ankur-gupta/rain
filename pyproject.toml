@@ -45,8 +45,8 @@ dependencies = [
 [tool.hatch.envs.test.scripts]
 coverage = "pytest --cov-config=pyproject.toml --cov=rain --cov=tests"
 no-coverage = "coverage --no-cov"
-notslow = "no-coverage -m \"not slow\""
-notrandom = "no-coverage -m \"not random\""
+notslow = "coverage -m \"not slow\""
+notrandom = "coverage -m \"not random\""
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.11"]
