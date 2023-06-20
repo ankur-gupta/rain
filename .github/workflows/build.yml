@@ -30,10 +30,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pipx install hatch
-#     - name: Install dependencies
-#       run: |
-#         python -m pip install pytest
-#         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    # `notrandom` is defined in pyproject.toml
     - name: Test
       run: |
         hatch run test:notrandom
@@ -45,10 +42,11 @@ jobs:
       run: |
         pwd
         pip install dist/rain-*.whl
+        ls -l
     - name: Codecov
       uses: codecov/codecov-action@v3.1.4
       # Alternatively, you may pin to the exact commit or the version.
-      # uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d
+      # uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d       
       with:
         # Repository upload token - get it from codecov.io. Required only for private repositories.
         # token: ${{ secrets.CODECOV_TOKEN }}
