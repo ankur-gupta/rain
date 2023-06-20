@@ -2,6 +2,10 @@ import os
 import logging
 
 from rain.version import __version__
+
+from rain.this_file_is_a_module import a_function_in_a_module
+from rain.this_directory_is_a_module.this_file_is_a_submodule import a_function_in_a_submodule
+
 from rain.circular.array import Array
 from rain.circular.grouped_array import GroupedArray
 
