@@ -15,8 +15,8 @@ from rain.directory_module_with_selective_imports import this_function_will_be_i
 from rain.local_imports.main import demo_use_of_local_imports
 
 # Circular imports
-from rain.circular.array import Array
-from rain.circular.grouped_array import GroupedArray
+from rain.circular_imports.array import Array
+from rain.circular_imports.grouped_array import GroupedArray
 
 # Logging demo
 from rain.logging_example.main import logger_demo

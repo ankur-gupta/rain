@@ -1,4 +1,4 @@
-from rain.circular.grouped_array import GroupedArray
+from rain.circular_imports.grouped_array import GroupedArray
 
 
 class Array:
