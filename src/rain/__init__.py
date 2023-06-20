@@ -3,12 +3,18 @@ import logging
 
 from rain.version import __version__
 
+# File and directory level modules
 from rain.this_file_is_a_module import a_function_in_a_module
 from rain.this_directory_is_a_module.this_file_is_a_submodule import a_function_in_a_submodule
 
+# Filtered imports from a directory-level module
+from rain.directory_module_with_filtered_imports import this_function_will_be_imported
+
+# Circular imports
 from rain.circular.array import Array
 from rain.circular.grouped_array import GroupedArray
 
+# Logging demo
 from rain.logging_example.main import logger_demo
 
 # Define a logger for the whole package. See:
