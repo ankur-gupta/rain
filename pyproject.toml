@@ -41,10 +41,12 @@ dependencies = [
     "pytest-mock",
 ]
 
-# Run using `hatch run test:coverage` and `hatch run test:no-coverage`
+# Run using `hatch run test:coverage`, `hatch run test:no-coverage`, `hatch run test:notslow`, ...
 [tool.hatch.envs.test.scripts]
 coverage = "pytest --cov-config=pyproject.toml --cov=rain --cov=tests"
 no-coverage = "coverage --no-cov"
+notslow = "no-coverage -m \"not slow\""
+notrandom = "no-coverage -m \"not random\""
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.11"]
@@ -53,6 +55,13 @@ python = ["3.9", "3.11"]
 omit = [
     "src/rain/resources/",
     "tests/*.py"
+]
+
+# From https://docs.pytest.org/en/latest/how-to/mark.html and PEP 621
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow",  # deselect with `pytest -m "not sleepy" ...`
+    "random: tests using randomness; may not always pass"
 ]
 
 [tool.hatch.build.targets.sdist]
