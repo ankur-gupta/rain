@@ -1,0 +1,3 @@
+X_MIN = 0
+X_MAX = 100
+X_STEP = 10

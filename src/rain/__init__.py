@@ -11,6 +11,9 @@ from rain.this_directory_is_a_module.this_file_is_a_submodule import a_function_
 # See $REPO_ROOT/src/rain/directory_module_with_selective_imports/__init__.py for detailed explanation.
 from rain.directory_module_with_selective_imports import this_function_will_be_imported
 
+# Demo of local imports
+from rain.local_imports.main import demo_use_of_local_imports
+
 # Circular imports
 from rain.circular.array import Array
 from rain.circular.grouped_array import GroupedArray
