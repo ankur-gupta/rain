@@ -51,10 +51,10 @@ Most of the topics above are explained in individual modules and files. For exam
 [`circular_imports` module](https://github.com/ankur-gupta/rain/tree/main/src/rain/circular_imports) only deals with 
 circular imports without having to deal with other issues such as logging. 
 
-#### Tests and builds via GitHub Actions
+### Tests and builds via GitHub Actions
 CI/CD is often best explained via live, working examples instead of written textual documentation.
 
-#### Clone/fork and experiment
+### Clone/fork and experiment
 Clone or fork `rain` to quickly test out something without having to write a new package from scratch or messing your 
 own important package. 
  
