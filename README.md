@@ -8,28 +8,43 @@
 
 **A live example to illustrate python packaging, testing, building, & deploying**
 
+## Updates
+`rain` has been updated to version 2
+* Uses the new `src` [directory structure](https://packaging.python.org/en/latest/tutorials/packaging-projects/) for python prokects
+* Uses the new `pyproject.toml` metadata structure based on [PEP 621](https://peps.python.org/pep-0621/#require-build-back-ends-to-update-pyproject-toml-when-generating-an-sdist)
+* More informative tests than version [1.0.0](https://github.com/ankur-gupta/rain/releases/tag/1.0.0) 
+* More informative names than version [1.0.0](https://github.com/ankur-gupta/rain/releases/tag/1.0.0) 
+* Python 2 cruft has been removed
+* Main branch renamed from `master` to `main`
+* Uses [hatch](https://hatch.pypa.io/latest/) to run tests, build packages, and update versions
+* You can still access v1 code and README [here](https://github.com/ankur-gupta/rain/tree/v1)
+
+## Aims
 `rain` is an online reference that can be explored by
 humans. It provides a living, dynamic alternative to commonly available 
 [static documentation](https://packaging.python.org/en/latest/tutorials/packaging-projects/). This repository covers 
 the following topics.
 
-* file and directory type modules
-* selective imports from a directory-type module
-* relative imports
-* circular imports
-* storing and distributing data files
-* entry point CLI scripts
-* setup logging inside a package 
-* storing version information in one location
-* specifying dependencies
+* [file](https://github.com/ankur-gupta/rain/blob/main/src/rain/this_file_is_a_module.py) and [directory](https://github.com/ankur-gupta/rain/tree/main/src/rain/this_directory_is_a_module) type modules
+* [selective imports](https://github.com/ankur-gupta/rain/tree/main/src/rain/directory_module_with_selective_imports) 
+from a directory-type module
+* [local/relative imports](https://github.com/ankur-gupta/rain/tree/main/src/rain/local_imports)
+* [circular imports](https://github.com/ankur-gupta/rain/tree/main/src/rain/circular_imports)
+* [storing](https://github.com/ankur-gupta/rain/tree/main/src/rain/resources), 
+[using](https://github.com/ankur-gupta/rain/blob/main/src/rain/__init__.py),
+and [distributing](https://github.com/ankur-gupta/rain/blob/main/pyproject.toml) data files
+* entry point [CLI](https://github.com/ankur-gupta/rain/tree/main/src/rain/cli) scripts
+* setup [logging](https://github.com/ankur-gupta/rain/tree/main/src/rain/logging_example) inside a package 
+* storing [version](https://github.com/ankur-gupta/rain/blob/main/src/rain/version.py) information in one location
+* [specifying](https://github.com/ankur-gupta/rain/blob/main/pyproject.toml) dependencies
 * running and skipping tests
-* obtaining coverage metrics & uploading them to codecov.io
+* obtaining coverage metrics & [uploading](https://github.com/ankur-gupta/rain/blob/main/.github/workflows/build.yml) 
+them to codecov.io
 * building and installing this package locally
-* example CI/CD using GitHub Actions
+* example CI/CD using [GitHub Actions](https://github.com/ankur-gupta/rain/blob/main/.github/workflows/build.yml)
 * adding badges to your README
 * deploying to PyPI (explained but not demo'd)
 
-## Aims
 `rain` is a _live and unencumbered reference_ that aims to _educate not execute_.
 
 ### Online reference
