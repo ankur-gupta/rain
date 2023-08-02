@@ -41,7 +41,7 @@ jobs:
       run: |
         hatch run test:not-random
         if [[ "${{ matrix.python-version }}" == "3.11" ]]; then
-          hatch run test:coverage-json
+          hatch run test:coverage-xml
         fi
     - name: Clean and build
       run: |
@@ -52,7 +52,10 @@ jobs:
         pwd
         pip install dist/rain-*.whl
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
-      env:
+      uses: codecov/codecov-action@v3.1.4
+      with:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        env_vars: OS,PYTHON
+        files: ./coverage.xml
         fail_ci_if_error: true  # Should the CI build fail if Codecov runs into an error during upload
+        verbose: true
