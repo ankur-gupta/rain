@@ -40,9 +40,7 @@ jobs:
     - name: Test
       run: |
         hatch run test:not-random
-        if [[ "${{ matrix.python-version }}" == "3.11" ]]; then
-          hatch run test:coverage-xml
-        fi
+        hatch run test:coverage-xml
     - name: Clean and build
       run: |
         hatch clean
