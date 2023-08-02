@@ -35,18 +35,21 @@ path = "src/rain/version.py"
 
 [tool.hatch.envs.test]
 dependencies = [
-    "coverage[toml]",
+    "coverage",
+    "codecov",
     "pytest",
     "pytest-cov",
     "pytest-mock",
 ]
 
-# Run using `hatch run test:coverage`, `hatch run test:no-coverage`, `hatch run test:notslow`, ...
+# Run using `hatch run test:run-coverage`, `hatch run test:no-coverage`, `hatch run test:not-slow`, ...
 [tool.hatch.envs.test.scripts]
-coverage = "pytest --cov-config=pyproject.toml --cov=rain --cov=tests"
-no-coverage = "coverage --no-cov"
-notslow = "coverage -m \"not slow\""
-notrandom = "coverage -m \"not random\""
+with-coverage = "pytest --cov-config=pyproject.toml --cov=rain --cov=tests"
+no-coverage = "with-coverage --no-cov"
+not-slow = "with-coverage -m \"not slow\""
+not-random = "with-coverage -m \"not random\""
+coverage-json = "coverage json"
+
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.11"]
