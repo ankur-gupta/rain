@@ -55,5 +55,5 @@ jobs:
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        file: coverage.json  # Path to coverage file to upload
+        file: coverage.xml  # Path to coverage file to upload
         fail_ci_if_error: true  # Should the CI build fail if Codecov runs into an error during upload

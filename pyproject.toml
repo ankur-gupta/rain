@@ -49,6 +49,7 @@ no-coverage = "with-coverage --no-cov"
 not-slow = "with-coverage -m \"not slow\""
 not-random = "with-coverage -m \"not random\""
 coverage-json = "coverage json"
+coverage-xml = "coverage xml"
 
 
 [[tool.hatch.envs.test.matrix]]
