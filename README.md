@@ -2,7 +2,7 @@
 
 ![GitHub](https://img.shields.io/github/license/ankur-gupta/rain?link=https%3A%2F%2Fgithub.com%2Fankur-gupta%2Frain%2Fblob%2Fmain%2FLICENSE)
 ![build](https://img.shields.io/github/actions/workflow/status/ankur-gupta/rain/build.yml)
-[![codecov](https://codecov.io/gh/ankur-gupta/rain/branch/master/graph/badge.svg?token=yFXplJMT9z)](https://codecov.io/gh/ankur-gupta/rain)
+[![codecov](https://codecov.io/gh/ankur-gupta/rain/branch/main/graph/badge.svg?token=yFXplJMT9z)](https://codecov.io/gh/ankur-gupta/rain)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ankur-gupta/rain)
 ![GitHub forks](https://img.shields.io/github/forks/ankur-gupta/rain)
 
