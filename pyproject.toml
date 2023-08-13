@@ -42,7 +42,7 @@ dependencies = [
     "pytest-mock",
 ]
 
-# Run using `hatch run test:run-coverage`, `hatch run test:no-coverage`, `hatch run test:not-slow`, ...
+# Run using `hatch run test:with-coverage`, `hatch run test:no-coverage`, `hatch run test:not-slow`, ...
 [tool.hatch.envs.test.scripts]
 with-coverage = "pytest --cov-config=pyproject.toml --cov=rain --cov=tests"
 no-coverage = "with-coverage --no-cov"
