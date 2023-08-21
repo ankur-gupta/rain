@@ -1,0 +1,14 @@
+# For CLI
+click>=8.0.3
+
+# For tests
+coverage
+codecov
+pytest
+pytest-cov
+pytest-mock
+
+# For development only - not in pyproject.toml dependencies
+ipython
+jupyter
+ipdb
